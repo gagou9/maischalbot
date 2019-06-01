@@ -434,8 +434,8 @@ def main():
             config['telegram_token'],
             config['telegram_offset'])
     # Si pas d'updates, on quitte directos
+    ## TODO: essayer de poster les messages sauvegardés s'il y'en a?
     if updates == []:
-        gueule("Pas d'updates")
         exit(0)
     # Fabriquons les posts et récupérons l'offset
     offset, new_posts = create_posts_and_get_offset(
