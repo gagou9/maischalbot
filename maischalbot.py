@@ -257,9 +257,15 @@ def create_single_post(message, files_dir, files_url, token):
         # Mais s'il a marché, insérons l'image dans le message
         else:
             # les navigateurs lisent pas le webp alors on converti
-            ## TODO: mettre le path+name dnas une variable, retirer l'extension
-            ## (os.path.???) puis…
-            #conv = os.system("convert " + files_dir + f + " " files_dir + os.basename(f)
+            if os.path.splitext(f)[1] == ".webp":
+                conv = os.system("convert " + files_dir + f + " " + files_dir + os.path.splitext(f)[0] + ".gif 1>/dev/null 2>&1")
+                if conv = 0:
+                    # Supprime le fichier
+                    try:
+                        os.remove(files_dir + f)
+                    except:
+                        gueule("Pas réussi à supprimer " + files_dir + f)
+                    f = os.path.splitext(f)[0] + ".gif"
             msg += "[img " + files_url + f + "]"
     # TODO: Gérer "animation"
     # Si on a pas eu de contenu qu'on sait gérer
