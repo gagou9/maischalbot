@@ -274,7 +274,7 @@ def create_single_post(message, files_dir, files_url, token):
             # les navigateurs lisent pas le webp alors on converti
             if os.path.splitext(f)[1] == ".webp":
                 conv = os.system("convert " + files_dir + f + " " + files_dir + os.path.splitext(f)[0] + ".gif 1>/dev/null 2>&1")
-                if conv = 0:
+                if conv == 0:
                     # Supprime le fichier
                     try:
                         os.remove(files_dir + f)
