@@ -210,11 +210,26 @@ def create_single_post(message, files_dir, files_url, token):
     # TODO: changer le sender (kubanto→zecho, viroulep→mr0, …)
     #       avec un dict {"kubanto":"zecho", "viroulep":"mr0}
     #       puis un try: sender=dict[sender] et hop
+    
     sender = message['from']['first_name']
     date = strftime("%d/%m/%Y", gmtime(message['date']))
     t = strftime("%H:%M:%S", gmtime(message['date']))
     # Construction du message
-    msg = "[quote De " + sender + ", le " + date + " à " + t + "]"
+    msg = "[quote De " + sender + ", le " + date + " à " + t
+    # Si on est dans un message transféré
+    if 'forward_date' in message:
+        # On prend le nom original s'il existe, sinon le nom affiché, sinon give up
+        if 'forward_from' in message:
+            msg += ", message original de " + message['forward_from']['first_name']
+        elif 'forward_sender_name' in message:
+            msg += ", message original de " + message['forward_sender_name']
+        else:
+            msg += ", message transféré"
+        t = strftime("%H:%M:%S", gmtime(message['forward_date']))
+        date = strftime("%d/%m/%Y", gmtime(message['forward_date']))
+        msg += ", posté le " + date + " à " + t
+    # Fermons le [quote]
+    msg += "]"
     # On devra vérifier s'il y a bien du contenu qu'on sait gérer
     has_known_content = False
     # si c'est une réponse, on refabrique un message complet depuis ce reply
