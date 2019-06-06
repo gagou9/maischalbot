@@ -473,15 +473,18 @@ def main():
     # Peut-être y'aura-t-il des posts à sauvegarder
     posts_to_save = []
     # Connectons-nous à maischal dans ce navigateur
-    if maischal_login(browser, config['maischal_user'], config['maischal_pass']):
-        # Postons les messages
-        for (key, post) in enumerate(posts):
-            if not post_message(browser, post):
-                gueule("Pas réussi à poster le message.")
-                # si ça marche pas, on enregiste le post loupé et tous les
-                # suivants, et on sort de la boucle.
-                posts_to_save = posts[key:]
-                break
+    try:
+        if maischal_login(browser, config['maischal_user'], config['maischal_pass']):
+            # Postons les messages
+            for (key, post) in enumerate(posts):
+                if not post_message(browser, post):
+                    gueule("Pas réussi à poster le message.")
+                    # si ça marche pas, on enregiste le post loupé et tous les
+                    # suivants, et on sort de la boucle.
+                    posts_to_save = posts[key:]
+                    break
+    except:
+        gueule("Ça a planté au niveau du postage sur maischal (dans main())")
     # S'il y'a des posts à sauvegarder (et si y'en a pas ça vide le fichier)
     save_posts(posts_to_save)
     # Mettons à jour l'offset
