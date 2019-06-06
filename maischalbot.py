@@ -424,7 +424,7 @@ def post_message(br, message):
             # Et si y'a une erreur d'encodage OSEF aussi? À voir.
             pass
     # TODO: changer l'icone et le texte du post envoyé?
-    payload["msg"] = message.encode("cp1252")
+    payload["msg"] = message.encode("cp1252", errors="ignore")
     # les-forums.com fait chier, mais si on sleep 3 secondes ici ça passe.
     sleep(3)
     #osef: payload["voir_resultat"] = True
