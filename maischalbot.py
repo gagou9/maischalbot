@@ -324,7 +324,7 @@ def save_posts(posts):
     try:
         f = open(SAVED_POSTS_FILE, "w")
     except OSError(errno, strerror, filename):
-        gueule("Youps, erreur " + errno + " lors de l'ouverture de " +
+        gueule("Impossible de sauvegarder les posts, erreur " + errno + " lors de l'ouverture de " +
                 filename + ". open() a retourné: " + strerror)
         return False
     else:
